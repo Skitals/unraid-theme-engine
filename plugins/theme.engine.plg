@@ -50,7 +50,7 @@ echo ""
 removepkg &name;-&version;-x86_64-1
 rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
-<![CDATA[sed -i 's/<?php include '\''\/usr\/local\/emhttp\/plugins\/theme\.engine\/include\.php'\''; ?>//g' /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php]]>
+<![CDATA[sed -i '/^<?php include '\''\/usr\/local\/emhttp\/plugins\/theme\.engine\/include\.php'\''; ?>/d' /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php]]>
 echo ""
 echo "Theme Engine Removed"
 </INLINE>
