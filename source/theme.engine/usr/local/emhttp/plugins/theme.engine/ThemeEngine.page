@@ -6,6 +6,7 @@ Icon="file"
 extract(parse_plugin_cfg('theme.engine',true));
 ?>
 
+<div id="title">Base Theme</div>
 <form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame" onsubmit="saveFontSize();upload();">
 <input type="hidden" name="#file" value="dynamix/dynamix.cfg">
 <input type="hidden" name="#section" value="display">
@@ -21,7 +22,7 @@ Base Theme:
 : <input type="submit" name="#apply" value="Apply" disabled>
 </form>
 
-
+<div id="title">Theme Settings</div>
 <form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame" onsubmit="saveFontSize();upload();">
 <input type="hidden" name="#file" value="theme.engine/theme.engine.cfg">
 <input type="hidden" name="#section" value="ThemeEngine">
@@ -31,17 +32,112 @@ Enable Theme Engine:
   <?=mk_option($ThemeEngine['enabled'], "1", "Yes")?>
   </select>
 
+
+Desaturate images/icons (0-100):
+: <input type="text" class="narrow" name="grayscale" value="<?php echo $ThemeEngine['grayscale']; ?>">
+
+
+Header text color:
+: <input type="text" class="narrow" name="headertext" value="<?php echo $ThemeEngine['headertext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Header background color:
+: <input type="text" class="narrow" name="headerbackground" value="<?php echo $ThemeEngine['headerbackground']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Menu text color:
+: <input type="text" class="narrow" name="menutext" value="<?php echo $ThemeEngine['menutext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Menu background color:
+: <input type="text" class="narrow" name="menubackground" value="<?php echo $ThemeEngine['menubackground']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
 Text color:
-: <input type="color" class="narrow" name="text" value="<?php echo $ThemeEngine['text']; ?>">
+: <input type="text" class="narrow" name="text" value="<?php echo $ThemeEngine['text']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
 
 
 Link color:
-: <input type="color" class="narrow" name="link" value="<?php echo $ThemeEngine['link']; ?>">
+: <input type="text" class="narrow" name="link" value="<?php echo $ThemeEngine['link']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Blue text:
+: <input type="text" class="narrow" name="bluetext" value="<?php echo $ThemeEngine['bluetext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Green text (passed):
+: <input type="text" class="narrow" name="greentext" value="<?php echo $ThemeEngine['greentext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Orange text (warning):
+: <input type="text" class="narrow" name="orangetext" value="<?php echo $ThemeEngine['orangetext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Red text (failed):
+: <input type="text" class="narrow" name="redtext" value="<?php echo $ThemeEngine['redtext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Green orb:
+: <input type="text" class="narrow" name="greenorb" value="<?php echo $ThemeEngine['greenorb']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Blue orb:
+: <input type="text" class="narrow" name="blueorb" value="<?php echo $ThemeEngine['blueorb']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Button text color:
+: <input type="text" class="narrow" name="buttontext" value="<?php echo $ThemeEngine['buttontext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Button background color:
+: <input type="text" class="narrow" name="buttonbackground" value="<?php echo $ThemeEngine['buttonbackground']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Button hover text color:
+: <input type="text" class="narrow" name="buttonhtext" value="<?php echo $ThemeEngine['buttonhtext']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
+
+Button hover background color:
+: <input type="text" class="narrow" name="buttonhbackground" value="<?php echo $ThemeEngine['buttonhbackground']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+
 
 <input type="submit" name="#default" value="Default" onclick="filename='reset'">
 : <input type="submit" name="#apply" value="Apply" disabled><input type="button" value="Done" onclick="done()">
 </form>
 
+<div id="title">Export Theme</div>
 <form markdown="1">
 Theme Name:
 : <input type="text" class="narrow" name="text" id="MyTheme" value="MyTheme">
@@ -50,7 +146,7 @@ Apply settings before exporting.
 : <input type="submit" value="Export" onclick="ExportTheme();">
 </form>
 
-
+<div id="title">Import Theme</div>
 <form markdown="1">
 Theme Name:
 : <select name="theme" size="1" id="SelectedTheme">
@@ -104,5 +200,21 @@ $.get( "/plugins/theme.engine/scripts/delete.php", { name: themename.value } )
     alert( "Theme Deleted: " + data );
   });
 }
+
+$(document).on('click', '.dc-color-input-switcher', function() {
+  var dcInputColor = $(this).prev();
+  if (dcInputColor.attr('type') == 'text') {
+    dcInputColor.attr('type', 'color');
+  } else {
+    dcInputColor.attr('type', 'text');
+  }
+});
+$(document).on('click', '.dc-color-input-clearer', function() {
+  var dcInputColor2 = $(this).prev().prev();
+  if (dcInputColor2.attr('type') == 'color') {
+    dcInputColor2.attr('type', 'text');
+  }
+  dcInputColor2.val('');
+});
 
 </script>
