@@ -17,5 +17,9 @@ Text color:
 </form>
 
 <script>
-
+$(function() {
+	if ( typeof caPluginUpdateCheck === "function" ) {
+		caPluginUpdateCheck("theme.engine.plg",{name:"Theme Engine"});
+	}
+});
 </script>

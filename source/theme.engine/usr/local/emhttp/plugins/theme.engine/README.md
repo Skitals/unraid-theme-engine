@@ -1,1 +1,2 @@
-####Theme Engine#### A plugin to install Skital's Dark Theme.
+####Theme Engine####
+Create a custom color theme for the unRAID webGui.
