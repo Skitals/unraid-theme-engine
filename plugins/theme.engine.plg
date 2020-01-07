@@ -32,7 +32,12 @@ The 'post-install' script
 <FILE Run="/bin/bash">
 <INLINE>
 <![CDATA[
+if cat /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php | grep '<?php include '\''\/usr\/local\/emhttp\/plugins\/theme\.engine\/include\.php'\''; ?>' > /dev/null;
+then
+echo "Looks good... continuing... "
+else
 sed -i '/^<\/style>/i <?php include '\''\/usr\/local\/emhttp\/plugins\/theme\.engine\/include\.php'\''; ?>' /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php
+fi
 sed -i 's/select,input\[type=text\],input\[type=number\],input\[type=password\],input\[type=checkbox\],input\[type=radio\],input\[type=file\],textarea/select,input\[type=text\],input\[type=color\],input\[type=number\],input\[type=password\],input\[type=checkbox\],input\[type=radio\],input\[type=file\],textarea/' /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php
 ]]>
 echo ""
