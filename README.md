@@ -10,8 +10,9 @@ You can inject custom css by creating the following files. The files, if they ex
 ```
 /boot/config/plugins/theme.engine/custom.css
 ```
+* Will be included in all themes.
 
-Will be included in all themes.
+
 
 ```
 /boot/config/plugins/theme.engine/custom-white.css
@@ -22,5 +23,4 @@ Will be included in all themes.
 
 /boot/config/plugins/theme.engine/custom-azure.css
 ```
-
-Will only be included when using the corresponding base theme.
+* Will only be included when using the corresponding base theme.
