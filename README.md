@@ -4,7 +4,7 @@
 ### How to install
 Coming Soon
 
-### Advanced / Hidden Options
+#### Advanced / Hidden Options
 You can inject custom css by creating the following files. The files, if they exist, are included on every page just above `</style>` in the html head.
 
 ```
