@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.07d">
-<!ENTITY md5 "2f4911a3d590084278471c5e14de6899">
+<!ENTITY version "2020.01.08">
+<!ENTITY md5 "5fee51b7b5d347e34e41a65e2a25e9b0">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-theme-engine">
@@ -11,7 +11,8 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
 <CHANGES>
-Pre-Release
+###2020.01.08
+- Initial Release
 </CHANGES>
 <FILE Run="/bin/bash">
 <INLINE>
