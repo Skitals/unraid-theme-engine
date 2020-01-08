@@ -3,7 +3,7 @@
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
 <!ENTITY version "2020.01.07d">
-<!ENTITY md5 "af72b63ad1c778835210579719f6fa72">
+<!ENTITY md5 "2f4911a3d590084278471c5e14de6899">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-theme-engine">
