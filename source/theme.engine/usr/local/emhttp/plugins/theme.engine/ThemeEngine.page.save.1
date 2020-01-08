@@ -134,7 +134,7 @@ Button hover background color:
 
 
 <input type="submit" name="#default" value="Default" onclick="filename='reset'">
-: <input type="submit" name="#apply" id="apply" value="Apply" disabled><input type="button" value="Done" onclick="done()">
+: <input type="submit" name="#apply" value="Apply" disabled><input type="button" value="Done" onclick="done()">
 </form>
 
 <div id="title">Export Theme</div>
@@ -169,12 +169,8 @@ $(function() {
 	}
 var jArray = <?php echo json_encode($ThemeEngine); ?>;
 for(var index in jArray) {
-  var tempStr = document.getElementsByName(index)[0];
-  if (tempStr.type == 'text' && jArray[index].length > 3) {
-    tempStr.type = 'color';
-  } else {
-    tempStr.type = 'text';
-  }
+var tempStr = document.getElementsByName(index)[0];
+alert(tempeme
 }
 
 });
@@ -227,7 +223,6 @@ $(document).on('click', '.dc-color-input-clearer', function() {
     dcInputColor2.attr('type', 'text');
   }
   dcInputColor2.val('');
-  document.getElementById("apply").disabled = false;
 });
 
 </script>
