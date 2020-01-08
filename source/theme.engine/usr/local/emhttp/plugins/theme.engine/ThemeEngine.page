@@ -140,7 +140,7 @@ Button hover background color:
 <div id="title">Export Theme</div>
 <form markdown="1" id="exportForm" onSubmit="return false;">
 Theme Name:
-: <input type="text" pattern="[a-zA-z0-9]{1,}" class="narrow" name="text" id="MyTheme" value="MyTheme">
+: <input type="text" pattern="[a-zA-Z0-9]{1,}" class="narrow" name="text" id="MyTheme" value="MyTheme">
 
 Apply settings before exporting.
 : <input type="submit" value="Export">
@@ -223,10 +223,13 @@ function DeleteTheme() {
 $(document).on('click', '.dc-color-input-switcher', function() {
 	var dcInputColor = $(this).prev();
 	if (dcInputColor.attr('type') == 'text') {
-		if (!dcInputColor.attr('value')) { dcInputColor.attr('value', '#000000'); }
+		if (!dcInputColor.attr('value')) { 
+			dcInputColor.attr('value', '#000000');
+	                var form = $(this).parentsUntil('form').parent();
+			form.find('input[value="Apply"],input[name="cmdEditShare"],input[name="cmdUserEdit"]').not('input.lock').prop('disabled',false);
+
+		}
 		dcInputColor.attr('type', 'color');
-                var form = $(this).parentsUntil('form').parent();
-                form.find('input[value="Apply"],input[name="cmdEditShare"],input[name="cmdUserEdit"]').not('input.lock').prop('disabled',false);
 	} else {
 		dcInputColor.attr('type', 'text');
 	}

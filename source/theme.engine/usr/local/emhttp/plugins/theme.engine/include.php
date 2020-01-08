@@ -133,3 +133,28 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color" i] {
 	height: 21px;
 }
+
+<?php
+
+if ( is_file("/boot/config/plugins/theme.engine/custom.css") ) {
+include '/boot/config/plugins/theme.engine/custom.css';
+}
+
+if ( is_file("/boot/config/plugins/theme.engine/custom-black.css") && $display['theme'] == "black") {
+include '/boot/config/plugins/theme.engine/custom-black.css';
+}
+
+if ( is_file("/boot/config/plugins/theme.engine/custom-white.css") && $display['theme'] == "white") {
+include '/boot/config/plugins/theme.engine/custom-white.css';
+}
+
+if ( is_file("/boot/config/plugins/theme.engine/custom-gray.css") && $display['theme'] == "gray") {
+include '/boot/config/plugins/theme.engine/custom-gray.css';
+}
+
+if ( is_file("/boot/config/plugins/theme.engine/custom-azure.css") && $display['theme'] == "azure") {
+include '/boot/config/plugins/theme.engine/custom-azure.css';
+}
+
+
+?>
