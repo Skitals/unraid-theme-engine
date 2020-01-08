@@ -225,6 +225,8 @@ $(document).on('click', '.dc-color-input-switcher', function() {
 	if (dcInputColor.attr('type') == 'text') {
 		if (!dcInputColor.attr('value')) { dcInputColor.attr('value', '#000000'); }
 		dcInputColor.attr('type', 'color');
+                var form = $(this).parentsUntil('form').parent();
+                form.find('input[value="Apply"],input[name="cmdEditShare"],input[name="cmdUserEdit"]').not('input.lock').prop('disabled',false);
 	} else {
 		dcInputColor.attr('type', 'text');
 	}
