@@ -7,6 +7,9 @@ Theme Engine lets you re-style the unRAID webGui. Instead of creating a whole ne
 ### How to install
 Coming Soon
 
+## Screenshot
+![](screenshot.png?raw=true)
+
 ---
 #### Advanced / Hidden Options
 You can inject custom css by creating the following files. The files, if they exist, are included on every page just above `</style>` in the html head.
