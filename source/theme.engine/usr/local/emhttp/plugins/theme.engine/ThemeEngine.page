@@ -1,6 +1,6 @@
 Menu="UserPreferences"
 Title="Theme Engine"
-Icon="file"
+Icon="paint-brush"
 ---
 <?php
 extract(parse_plugin_cfg('theme.engine',true));
