@@ -9,7 +9,7 @@
 <!ENTITY github "Skitals/unraid-theme-engine">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
 ]>
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/87126-plugin-theme-engine-a-webgui-styler/">
 <CHANGES>
 ###2020.01.08
 - Initial Release
