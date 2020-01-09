@@ -1,6 +1,8 @@
 # Theme Engine
 #### A plugin for the unRAID webGui
 
+Theme Engine lets you re-style the unRAID webGui. Instead of creating a whole new theme, it lets you adjust settings that override the theme you are already using. You can adjust as few or as many settings as you like. Mixing and matching the base themes with Theme Engine settings creates endless possibilities.
+
 ---
 ### How to install
 Coming Soon
