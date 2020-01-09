@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.08e">
-<!ENTITY md5 "1fc693939fbdf8e2789113e5bcaf1081">
+<!ENTITY version "2020.01.08f">
+<!ENTITY md5 "3ca76fbeb48846358a36e1a82b1e3e99">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-theme-engine">
