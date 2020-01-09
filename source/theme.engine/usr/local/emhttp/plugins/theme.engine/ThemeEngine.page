@@ -134,7 +134,7 @@ Button hover background color:
 
 
 <input type="submit" name="#default" value="Clear Settings" onclick="filename='reset'" style="color:#fff;background-color:#890008">
-: <input type="submit" name="#apply" id="apply" value="Apply" disabled><input type="button" id="done" value="Done" onclick="done()">
+: <input type="submit" name="#apply" id="apply" value="Apply" disabled><input type="button" id="done" value="Done" onclick="donezo()">
 </form>
 
 <div id="title">Export Theme</div>
@@ -220,6 +220,13 @@ function DeleteTheme() {
 	}
 }
 
+function donezo() {
+  var url = location.pathname.split('/');
+  var path = '/'+url[1];
+  $.removeCookie('one',{path:'/'});
+  location.replace(path);
+}
+
 $(document).on('click', '.dc-color-input-switcher', function() {
 	var dcInputColor = $(this).prev();
 	if (dcInputColor.attr('type') == 'text') {
@@ -227,7 +234,6 @@ $(document).on('click', '.dc-color-input-switcher', function() {
 			dcInputColor.attr('value', '#000000');
 	                var form = $(this).parentsUntil('form').parent();
 			form.find('input[value="Apply"],input[name="cmdEditShare"],input[name="cmdUserEdit"]').not('input.lock').prop('disabled',false);
-
 		}
 		dcInputColor.attr('type', 'color');
 	} else {
