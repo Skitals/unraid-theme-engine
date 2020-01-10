@@ -1,6 +1,6 @@
 <?php
 extract(parse_plugin_cfg('theme.engine',true));
-if ($ThemeEngine['enabled'] == "1") { 
+if ($ThemeEngine['enabled'] == "1") {
 
 $textcolor = $ThemeEngine['text'];
 $linkcolor = $ThemeEngine['link'];
@@ -136,6 +136,8 @@ input[type="color" i] {
 
 <?php
 
+if ($ThemeEngine['customcss'] == "1") {
+
 if ( is_file("/boot/config/plugins/theme.engine/custom.css") ) {
 include '/boot/config/plugins/theme.engine/custom.css';
 }
@@ -156,5 +158,6 @@ if ( is_file("/boot/config/plugins/theme.engine/custom-azure.css") && $display['
 include '/boot/config/plugins/theme.engine/custom-azure.css';
 }
 
+}
 
 ?>

@@ -33,6 +33,13 @@ Enable Theme Engine:
   </select>
 
 
+Enable custom.css (<i>Advanced - see support link</i>):
+: <select name="customcss" size="1">
+  <?=mk_option($ThemeEngine['customcss'], "0", "No")?>
+  <?=mk_option($ThemeEngine['customcss'], "1", "Yes")?>
+  </select>
+
+
 Desaturate images/icons (0-100):
 : <input type="number" min="0" max="100" pattern="^[0-9][0-9]?$|100$" class="narrow" name="grayscale" value="<?php echo $ThemeEngine['grayscale']; ?>">
 
