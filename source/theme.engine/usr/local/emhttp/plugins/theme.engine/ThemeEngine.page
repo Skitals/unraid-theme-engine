@@ -2,12 +2,101 @@ Menu="UserPreferences"
 Title="Theme Engine"
 Icon="paint-brush"
 ---
+
+<link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.switchbutton.css');?>">
+<link rel="stylesheet" href="<?autov('/plugins/dynamix.vm.manager/scripts/codemirror/lib/codemirror.css')?>">
+<link rel="stylesheet" href="<?autov('/plugins/dynamix.vm.manager/scripts/codemirror/addon/hint/show-hint.css')?>">
+
+<style>
+	.CodeMirror { border: 1px solid #eee; cursor: text; margin-top: 15px; margin-bottom: 10px; }
+	.CodeMirror pre.CodeMirror-placeholder { color: #999; }
+
+.switcher {
+	margin: 0 20px 0 0;
+	vertical-align: top;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+	width: 166px;
+	padding: 0;
+	margin: 0 20px 0 0;
+	font-family: clear-sans;
+	font-size: 1.3rem;
+	background-color: transparent;
+	border: none;
+	text-indent: 0;
+	min-height: 2rem;
+	line-height: 2rem;
+	outline: none;
+	margin: 0 20px 0 0;
+	box-shadow: none;
+	border-radius: 0;
+	color: #f2f2f2;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+input[type="color" i] {
+	height: 21px;
+}
+
+textarea, .textarea {
+	width: 50%;
+}
+
+
+.basic{display:block}
+
+.advanced{display:none}
+</style>
+
 <?php
 extract(parse_plugin_cfg('theme.engine',true));
+extract(parse_plugin_cfg('dynamix',true));
 ?>
 
+
+<div id="title">Import Zip</div>
+<form markdown="1" id="ImportZip" onSubmit="return false;">
+From URL:
+: <input type="text" id="zipurl">
+
+
+From USB:
+: <select name="zip" size="1" id="zip">
+  <?foreach (glob("/boot/config/plugins/theme.engine/themes/*.zip") as $zips):?>
+  <?$zip = basename($zips);?>
+  <?=mk_option($zip, $zip, $zip)?>
+  <?endforeach;?>
+  </select>
+
+
+&nbsp;
+: <input type="submit" value="Import"><input type="submit" value="Delete" onclick="DeleteTheme('zip');return false;" id="deletezipbutton" disabled><input type="checkbox" onchange="document.getElementById('deletezipbutton').disabled = !this.checked;">Confirm Delete.
+</form>
+
+
+<div id="title">Saved Themes</div>
+<form markdown="1" id="LoadTheme" onSubmit="return false;">
+Theme Name:
+: <select name="theme" size="1" id="SelectedTheme">
+  <?foreach (glob("/boot/config/plugins/theme.engine/themes/*.cfg") as $themes):?>
+  <?$theme = basename($themes,'.cfg');?>
+  <?=mk_option($display['theme'], $theme, ucfirst($theme))?>
+  <?endforeach;?>
+  </select>
+
+Current settings will be overwriten.
+: <input type="submit" value="Load"><input type="submit" value="Delete" onclick="DeleteTheme('theme');return false;" id="deletebutton" disabled><input type="checkbox" onchange="document.getElementById('deletebutton').disabled = !this.checked;">Confirm Delete.
+</form>
+
+
 <div id="title">Base Theme</div>
-<form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame" onsubmit="saveFontSize();upload();">
+<form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame">
 <input type="hidden" name="#file" value="dynamix/dynamix.cfg">
 <input type="hidden" name="#section" value="display">
 Base Theme:
@@ -18,12 +107,15 @@ Base Theme:
   <?endforeach;?>
   </select>
 
-<input type="submit" name="#default" value="Default" onclick="filename='reset'">
+
+&nbsp;
 : <input type="submit" name="#apply" value="Apply" disabled>
 </form>
 
+
 <div id="title">Theme Settings</div>
-<form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame" onsubmit="saveFontSize();upload();">
+<span class="status" style="margin-top:-58px"><span><input type="checkbox" class="advancedview"></span></span>
+<form markdown="1" name="display_settings" id="mainform" method="POST" action="/update.php" target="progressFrame" onsubmit="SaveCSS();">
 <input type="hidden" name="#file" value="theme.engine/theme.engine.cfg">
 <input type="hidden" name="#section" value="ThemeEngine">
 Enable Theme Engine:
@@ -32,12 +124,8 @@ Enable Theme Engine:
   <?=mk_option($ThemeEngine['enabled'], "1", "Yes")?>
   </select>
 
-
-Enable custom.css (<i>Advanced - see support link</i>):
-: <select name="customcss" size="1">
-  <?=mk_option($ThemeEngine['customcss'], "0", "No")?>
-  <?=mk_option($ThemeEngine['customcss'], "1", "Yes")?>
-  </select>
+Theme Name:
+: <input type="text" pattern="[a-zA-Z0-9]{1,}" class="narrow" name="themename" id="MyTheme" value="<?php echo $ThemeEngine['themename']; ?>">
 
 
 Desaturate images/icons (0-100):
@@ -48,136 +136,298 @@ Header text color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="headertext" value="<?php echo $ThemeEngine['headertext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush" title="Toggle Color Picker"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'headertext\']?>')?></span>
 
 
 Header background color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="headerbackground" value="<?php echo $ThemeEngine['headerbackground']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'headerbackground\']?>')?></span>
 
 
 Menu text color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="menutext" value="<?php echo $ThemeEngine['menutext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'menutext\']?>')?></span>
 
 
 Menu background color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="menubackground" value="<?php echo $ThemeEngine['menubackground']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'menubackground\']?>')?></span>
 
+<div markdown="1" class="advanced">
+Background color:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="mainbackground" value="<?php echo $ThemeEngine['mainbackground']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'mainbackground\']?>')?></span>
+
+
+Table background color:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="tablebackground" value="<?php echo $ThemeEngine['tablebackground']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'tablebackground\']?>')?></span>
+
+
+Table head color:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="tablehead" value="<?php echo $ThemeEngine['tablehead']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'tablehead\']?>')?></span>
+
+
+Table contrast color:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="tablecontrast" value="<?php echo $ThemeEngine['tablecontrast']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'tablecontrast\']?>')?></span>
+</div>
 
 Text color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="text" value="<?php echo $ThemeEngine['text']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'text\']?>')?></span>
 
 
 Link color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="link" value="<?php echo $ThemeEngine['link']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'link\']?>')?></span>
 
 
 Blue text:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="bluetext" value="<?php echo $ThemeEngine['bluetext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'bluetext\']?>')?></span>
 
 
 Green text (passed):
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="greentext" value="<?php echo $ThemeEngine['greentext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'greentext\']?>')?></span>
 
 
 Orange text (warning):
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="orangetext" value="<?php echo $ThemeEngine['orangetext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'orangetext\']?>')?></span>
 
 
 Red text (failed):
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="redtext" value="<?php echo $ThemeEngine['redtext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'redtext\']?>')?></span>
 
 
 Green orb:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="greenorb" value="<?php echo $ThemeEngine['greenorb']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'greenorb\']?>')?></span>
 
 
 Blue orb:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="blueorb" value="<?php echo $ThemeEngine['blueorb']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'blueorb\']?>')?></span>
 
 
 Button text color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="buttontext" value="<?php echo $ThemeEngine['buttontext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'buttontext\']?>')?></span>
 
 
 Button background color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="buttonbackground" value="<?php echo $ThemeEngine['buttonbackground']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'buttonbackground\']?>')?></span>
 
 
 Button hover text color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="buttonhtext" value="<?php echo $ThemeEngine['buttonhtext']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'buttonhtext\']?>')?></span>
 
 
 Button hover background color:
 : <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="buttonhbackground" value="<?php echo $ThemeEngine['buttonhbackground']; ?>">
 <span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
 <span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'buttonhbackground\']?>')?></span>
 
 
-<input type="submit" name="#default" value="Clear Settings" onclick="filename='reset'" style="color:#fff;background-color:#890008">
-: <input type="submit" name="#apply" id="apply" value="Apply" disabled><input type="button" id="done" value="Done" onclick="donezo()">
-</form>
-
-<div id="title">Export Theme</div>
-<form markdown="1" id="exportForm" onSubmit="return false;">
-Theme Name:
-: <input type="text" pattern="[a-zA-Z0-9]{1,}" class="narrow" name="text" id="MyTheme" value="MyTheme">
-
-Apply settings before exporting.
-: <input type="submit" value="Export">
-</form>
-
-<div id="title">Import Theme</div>
-<form markdown="1" id="importForm" onSubmit="return false;">
-Theme Name:
-: <select name="theme" size="1" id="SelectedTheme">
-  <?foreach (glob("/boot/config/plugins/theme.engine/themes/*.cfg") as $themes):?>
-  <?$theme = basename($themes,'.cfg');?>
-  <?=mk_option($display['theme'], $theme, ucfirst($theme))?>
-  <?endforeach;?>
+<div markdown="1" class="advanced">
+Enable custom.css (independent of theme):
+: <select name="customcss" size="1">
+  <?=mk_option($ThemeEngine['customcss'], "0", "No")?>
+  <?=mk_option($ThemeEngine['customcss'], "1", "Yes")?>
   </select>
 
-Current settings will be overwriten.
-: <input type="submit" value="Import"><input type="submit" value="Delete" onclick="DeleteTheme();return false;" id="deletebutton" disabled><input type="checkbox" onchange="document.getElementById('deletebutton').disabled = !this.checked;">Confirm Delete.
+
+Enable custom styling (below):
+: <select name="customstyle" size="1">
+  <?=mk_option($ThemeEngine['customstyle'], "0", "No")?>
+  <?=mk_option($ThemeEngine['customstyle'], "1", "Yes")?>
+  </select>
+
+
+<div markdown="1" id="CustomStyling" style="display:<?php if($ThemeEngine['customstyle'] == "0"){ echo "none";} else { echo "inline"; }?>">
+Custom color base00:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base00" value="<?php echo $ThemeEngine['base00']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base00\']?>')?></span>
+
+
+Custom color base01:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base01" value="<?php echo $ThemeEngine['base01']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base01\']?>')?></span>
+
+
+Custom color base02:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base02" value="<?php echo $ThemeEngine['base02']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base02\']?>')?></span>
+
+
+Custom color base03:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base03" value="<?php echo $ThemeEngine['base03']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base03\']?>')?></span>
+
+
+Custom color base04:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base04" value="<?php echo $ThemeEngine['base04']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base04\']?>')?></span>
+
+
+Custom color base05:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base05" value="<?php echo $ThemeEngine['base05']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base05\']?>')?></span>
+
+
+Custom color base06:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base06" value="<?php echo $ThemeEngine['base06']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base06\']?>')?></span>
+
+
+Custom color base07:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base07" value="<?php echo $ThemeEngine['base07']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base07\']?>')?></span>
+
+
+Custom color base08:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base08" value="<?php echo $ThemeEngine['base08']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base08\']?>')?></span>
+
+
+Custom color base09:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base09" value="<?php echo $ThemeEngine['base09']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base09\']?>')?></span>
+
+
+Custom color base0A:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base0A" value="<?php echo $ThemeEngine['base0A']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base0A\']?>')?></span>
+
+
+Custom color base0B:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base0B" value="<?php echo $ThemeEngine['base0B']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base0B\']?>')?></span>
+
+
+Custom color base0C:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base0C" value="<?php echo $ThemeEngine['base0C']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base0C\']?>')?></span>
+
+
+Custom color base0D:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base0D" value="<?php echo $ThemeEngine['base0D']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base0D\']?>')?></span>
+
+
+Custom color base0E:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base0E" value="<?php echo $ThemeEngine['base0E']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base0E\']?>')?></span>
+
+
+Custom color base0F:
+: <input type="text" pattern="#[0-9a-fA-F]{6}" class="narrow" name="base0F" value="<?php echo $ThemeEngine['base0F']; ?>">
+<span class="switcher dc-color-input-switcher"><i class="fa fa-paint-brush"></i></span>
+<span class="switcher dc-color-input-clearer"><i class="fa fa-times"></i></span>
+<span class="advanced">Variable: <?php echo htmlspecialchars('<?=$ThemeEngine[\'base0F\']?>')?></span>
+
+
+Custom styling (advanced):
+: <textarea id="themecss" spellcheck="false" rows="10"><?php $filename="/boot/config/plugins/theme.engine/themes/${ThemeEngine['themename']}-${display['theme']}.css";if(file_exists($filename)){echo file_get_contents($filename);} ?></textarea>
+</div>
+</div>
+
+&nbsp;
+: <input type="checkbox" id="exportcheckbox"> Export to Saved Themes <span id="themespan"><?php if(is_file("/boot/config/plugins/theme.engine/themes/${ThemeEngine['themename']}-${display['theme']}.cfg")) { echo "(this will overwrite ${ThemeEngine['themename']}-${display['theme']}!)"; } ?></span>
+
+<input type="submit" name="#default" value="Clear Settings" onclick="disableOnSubmit();" style="color:#fff;background-color:#890008">
+: <input type="submit" name="#apply" id="applysettings" value="Apply" disabled><input type="button" id="done" value="Done" onclick="donezo()"> <a id="saveToFile" class="advanced">Download current confirguration as Zip File</a> <span class="advanced">(Apply changes first)</span>
 </form>
 
+<div style="display:none"><textarea id="theme_engine_cfg" spellcheck="false"><?php echo file_get_contents("/boot/config/plugins/theme.engine/theme.engine.cfg"); ?></textarea></div>
 
+<script type="text/javascript" src="<?=autov('/webGui/javascript/jquery.switchbutton.js');?>"></script>
+<script type="text/javascript" src="/plugins/theme.engine/include/jszip.min.js"></script>
+<script type="text/javascript" src="/plugins/theme.engine/include/FileSaver.min.js"></script>
 <script>
 
 $(function() {
 	if ( typeof caPluginUpdateCheck === "function" ) {
 		caPluginUpdateCheck("theme.engine.plg",{name:"Theme Engine"});
 	}
+
 	var jArray = <?php echo json_encode($ThemeEngine); ?>;
 	for(var index in jArray) {
 		var tempStr = document.getElementsByName(index)[0];
-		if (tempStr.type == 'text' && jArray[index].length > 3) {
+		if (tempStr.type == 'text' && jArray[index].length > 3 && tempStr.name != 'themename') {
 			tempStr.type = 'color';
 		} else {
 			tempStr.type = 'text';
@@ -185,20 +435,20 @@ $(function() {
 	}
 });
 
-var $exportForm = $('#exportForm');
-var $importForm = $('#importForm');
-
-$exportForm.on('submit', function(){
+jQuery("#saveToFile").on("click", function () {
 	var themename = document.getElementById("MyTheme");
-	var basetheme = document.getElementById("BaseTheme"); 
-	$.get( "/plugins/theme.engine/scripts/export.php", { name: themename.value, base: basetheme.value } )
-	.done(function( data ) {
-		alert( data );
-		location.reload();
-	});
+	var basetheme = document.getElementById("BaseTheme");
+	var zip = new JSZip();
+	zip.file(themename.value + "-" + basetheme.value + ".cfg", document.getElementById("theme_engine_cfg").value);
+	zip.file(themename.value + "-" + basetheme.value + ".css", document.getElementById("themecss").value);
+	zip.generateAsync({type:"blob"}).then(function (blob) {
+        	saveAs(blob, themename.value + "-" + basetheme.value + ".zip");
+   	 }, function (err) {
+        	jQuery("#blob").text(err);
+    });
 });
 
-$importForm.on('submit', function(){
+$('#LoadTheme').on('submit', function(){
 	var themename = document.getElementById("SelectedTheme");
 	var basename = themename.value.split('-')[1]
             $.ajax({
@@ -215,16 +465,72 @@ $importForm.on('submit', function(){
 	});
 });
 
-function DeleteTheme() {
-	var themename = document.getElementById("SelectedTheme");
+$('#ImportZip').on('submit', function(){
+	var zipurl = document.getElementById("zipurl").value;
+	var zip = document.getElementById("zip").value;
+	if (zipurl) {
+		var filename = zipurl.split('/').pop().split('?')[0];
+		$.get( "/plugins/theme.engine/scripts/extract.php", { method: 'url', zipurl: zipurl, filename: filename } )
+		.done(function( data ) {
+		alert(  data );
+		location.reload();
+		});
+	} else {
+		$.get( "/plugins/theme.engine/scripts/extract.php", { method: 'zip', zip: zip } )
+		.done(function( data ) {
+		alert(  data );
+		location.reload();
+		});
+	}
+});
+
+document.getElementById("MyTheme").onchange = function() {
+	var themeurl = "/boot/config/plugins/theme.engine/themes/" + document.getElementById("MyTheme").value + "-" + document.getElementById("BaseTheme").value + ".cfg";
+	$.get( "/plugins/theme.engine/scripts/isfile.php", { file: themeurl } )
+	.done(function( data ) {		
+		if(!data){document.getElementById("themespan").innerHTML = "(will be saved as " + document.getElementById("MyTheme").value + "-" + document.getElementById("BaseTheme").value + ")";}
+		else{document.getElementById("themespan").innerHTML = "(this will overwrite " + document.getElementById("MyTheme").value + "-" + document.getElementById("BaseTheme").value + "!)";}
+	});
+	
+};
+
+document.getElementsByName("customstyle")[0].onchange = function() {	
+	if (this.value > 0) {
+		document.getElementById("CustomStyling").style.display = "inline";
+	} else {
+		document.getElementById("CustomStyling").style.display = "none";
+	}
+};
+
+
+function SaveCSS() {
+	var filename = document.getElementById("MyTheme").value + "-" + document.getElementById("BaseTheme").value;
+	var themecss = document.getElementById("themecss");
+	var save = document.getElementById("exportcheckbox").checked;
+	$.get( "/plugins/theme.engine/scripts/savecss.php", { themecss: themecss.value, filename: filename, save: save } )
+		.done(function( data ) {
+	});
+}
+
+function DeleteTheme(type) {
+	if (type == "theme") {
+		var themename = document.getElementById("SelectedTheme").value;
+	}
+	if (type == "zip") {
+		var themename = document.getElementById("zip").value;
+	}
 	var r = confirm("This will delete the theme permenantly. Press OK to confirm.");
 	if (r == true){
-		$.get( "/plugins/theme.engine/scripts/delete.php", { name: themename.value } )
+		$.get( "/plugins/theme.engine/scripts/delete.php", { type: type, name: themename } )
 			.done(function( data ) {
 			alert( data );
 			location.reload();
 		});
 	}
+}
+
+function disableOnSubmit() {
+	document.getElementById("mainform").onsubmit = "";
 }
 
 function donezo() {
@@ -260,5 +566,24 @@ $(document).on('click', '.dc-color-input-clearer', function() {
 		form.find('input[value="Done"]').not('input.lock').val('Reset').prop('onclick',null).off('click').click(function(){refresh(form.offset().top)});
 	}
 });
+
+if ($.cookie('themeengine_view_mode') == 'advanced') {
+	$('.advanced').show();
+	$('.basic').hide();
+}
+
+$('.advancedview').switchButton({
+	labels_placement: "left",
+	on_label: 'Advanced View',
+	off_label: 'Basic View',
+	checked: $.cookie('themeengine_view_mode') == 'advanced'
+});
+
+$('.advancedview').change(function () {
+	$('.advanced').toggle('slow');
+	$('.basic').toggle('slow');
+	$.cookie('themeengine_view_mode', $('.advancedview').is(':checked') ? 'advanced':'basic', {expires:3650});
+});
+
 
 </script>

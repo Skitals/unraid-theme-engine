@@ -4,6 +4,10 @@ if ($ThemeEngine['enabled'] == "1") {
 
 $textcolor = $ThemeEngine['text'];
 $linkcolor = $ThemeEngine['link'];
+$mainbackground = $ThemeEngine['mainbackground'];
+$tablebackground = $ThemeEngine['tablebackground'];
+$tablehead = $ThemeEngine['tablehead'];
+$tablecontrast = $ThemeEngine['tablecontrast'];
 $headertext = $ThemeEngine['headertext'];
 $headerbackground = $ThemeEngine['headerbackground'];
 $menutext = $ThemeEngine['menutext'];
@@ -38,6 +42,34 @@ $blueorb = $ThemeEngine['blueorb'];
 
 <?if ($menubackground):?>
 #menu{background-color:<?=$menubackground?>}
+<?endif;?>
+
+<?if ($mainbackground):?>
+body{background-color:<?=$mainbackground?>}
+<?endif;?>
+
+<?if ($tablehead):?>
+#title{background-color:<?=$tablehead?>;border-bottom:1px solid <?=$tablebackground?>;}
+table.disk_status thead tr:first-child td{background-color:<?=$tablebackground?>}
+table.disk_status thead tr:last-child{border-bottom:1px solid <?=$tablebackground?>}
+table tbody tr.tr_last{background-color:<?=$tablebackground?>;border-top:1px solid <?=$tablebackground?>}
+table.share_status thead tr:first-child td{background-color:<?=$tablebackground?>}
+<?endif;?>
+
+<?if ($tablebackground):?>
+table{background-color:<?=$tablebackground?>}
+span.outer.solid{background-color:<?=$tablebackground?>}
+div.user-list{background-color:<?=$tablebackground?>}
+.ca_holder {background-color:<?=$tablebackground?> !important}
+<?endif;?>
+
+<?if ($tablecontrast):?>
+table.share_status tbody tr:nth-child(even){background-color:<?=$tablecontrast?>}
+table.tablesorter tbody tr:nth-child(even){background-color:<?=$tablecontrast?>}
+table.disk_status tbody tr:nth-child(even){background-color:<?=$tablecontrast?>}
+table.tablesorter thead tr th{background-color:<?=$tablecontrast?>}
+table.tablesorter thead tr .tablesorter-headerAsc, table.tablesorter thead tr .tablesorter-headerDesc{background-color:<?=$tablecontrast?>}
+div.user-list{border:1px solid <?=$tablecontrast?>}
 <?endif;?>
 
 <?if ($textcolor):?>
@@ -99,65 +131,35 @@ img{-webkit-filter:grayscale(<?=$grayscale?>%);filter:grayscale(<?=$grayscale?>%
 .blue-orb{color:<?=$blueorb?>}
 <?endif;?>
 
-<? } ?>
+<? 
+} 
 
-.switcher {
-margin: 0 20px 0 0;
-vertical-align: top;
+
+if ($ThemeEngine['customstyle'] == "1") {
+	if ( is_file("/boot/config/plugins/theme.engine/themes/${ThemeEngine['themename']}-${display['theme']}.css") ) {
+		include "/boot/config/plugins/theme.engine/themes/${ThemeEngine['themename']}-${display['theme']}.css";
+	}
+
 }
 
-input[type="color"] {
-	-webkit-appearance: none;
-	border: none;
-	width: 166px;
-	padding: 0;
-	margin: 0 20px 0 0;
-    font-family: clear-sans;
-    font-size: 1.3rem;
-    background-color: transparent;
-    border: none;
-    text-indent: 0;
-    min-height: 2rem;
-    line-height: 2rem;
-    outline: none;
-    margin: 0 20px 0 0;
-    box-shadow: none;
-    border-radius: 0;
-    color: #f2f2f2;
-}
 
-input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
-}
-
-input[type="color" i] {
-	height: 21px;
-}
-
-<?php
 
 if ($ThemeEngine['customcss'] == "1") {
-
-if ( is_file("/boot/config/plugins/theme.engine/custom.css") ) {
-include '/boot/config/plugins/theme.engine/custom.css';
-}
-
-if ( is_file("/boot/config/plugins/theme.engine/custom-black.css") && $display['theme'] == "black") {
-include '/boot/config/plugins/theme.engine/custom-black.css';
-}
-
-if ( is_file("/boot/config/plugins/theme.engine/custom-white.css") && $display['theme'] == "white") {
-include '/boot/config/plugins/theme.engine/custom-white.css';
-}
-
-if ( is_file("/boot/config/plugins/theme.engine/custom-gray.css") && $display['theme'] == "gray") {
-include '/boot/config/plugins/theme.engine/custom-gray.css';
-}
-
-if ( is_file("/boot/config/plugins/theme.engine/custom-azure.css") && $display['theme'] == "azure") {
-include '/boot/config/plugins/theme.engine/custom-azure.css';
-}
-
+	if ( is_file("/boot/config/plugins/theme.engine/custom.css") ) {
+		include '/boot/config/plugins/theme.engine/custom.css';
+	}
+	if ( is_file("/boot/config/plugins/theme.engine/custom-black.css") && $display['theme'] == "black") {
+		include '/boot/config/plugins/theme.engine/custom-black.css';
+	}
+	if ( is_file("/boot/config/plugins/theme.engine/custom-white.css") && $display['theme'] == "white") {
+		include '/boot/config/plugins/theme.engine/custom-white.css';
+	}
+	if ( is_file("/boot/config/plugins/theme.engine/custom-gray.css") && $display['theme'] == "gray") {
+		include '/boot/config/plugins/theme.engine/custom-gray.css';
+	}
+	if ( is_file("/boot/config/plugins/theme.engine/custom-azure.css") && $display['theme'] == "azure") {
+		include '/boot/config/plugins/theme.engine/custom-azure.css';
+	}
 }
 
 ?>

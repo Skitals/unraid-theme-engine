@@ -1,2 +1,2 @@
 ####Theme Engine####
-Create a custom color theme for the unRAID webGui.
+Create or import a custom color theme for the unRAID webGui.

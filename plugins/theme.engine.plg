@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.10">
-<!ENTITY md5 "9236f0c40ec7b86d78272589139cd4e2">
+<!ENTITY version "2020.01.13">
+<!ENTITY md5 "1a2a2d023def1ab399ea8cda9c87e33b">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-theme-engine">
@@ -11,6 +11,14 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/87126-plugin-theme-engine-a-webgui-styler/">
 <CHANGES>
+###2020.01.13
+- Import theme from zip file (usb or url).
+- Toggle advanced mode.
+- Advanced: Additional color settings.
+- Advanced: Custom theme styling.
+- Advanced: Custom color variables for theme styling.
+- Advanced: Download theme as zip file.
+
 ###2020.01.09
 - Enable/disable custom.css (advanced).
 
