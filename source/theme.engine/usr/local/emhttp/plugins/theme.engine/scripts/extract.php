@@ -7,9 +7,9 @@ $overwrite = $_GET["overwrite"];
 
 if ($_GET["method"] == "zip") {
 	if ($overwrite) {
-		exec("unzip -o /boot/config/plugins/theme.engine/themes/$zip \"*.cfg\" \"*.css\" -d /boot/config/plugins/theme.engine/themes/");
+		exec("unzip -o /boot/config/plugins/theme.engine/themes/$zip \"*-*.cfg\" \"*-*.css\" -d /boot/config/plugins/theme.engine/themes/");
 	} else {
-		exec("unzip /boot/config/plugins/theme.engine/themes/$zip \"*.cfg\" \"*.css\" -d /boot/config/plugins/theme.engine/themes/");
+		exec("unzip /boot/config/plugins/theme.engine/themes/$zip \"*-*.cfg\" \"*-*.css\" -d /boot/config/plugins/theme.engine/themes/");
 	}
 }
 
@@ -24,9 +24,9 @@ if ($_GET["method"] == "url") {
 			$output2 = array();
 			$return_var2 = -1;
 			if ($overwrite) {
-				exec("unzip -o /boot/config/plugins/theme.engine/themes/$filename \"*.cfg\" \"*.css\" -d /boot/config/plugins/theme.engine/themes/", $output2, $return_var2);
+				exec("unzip -o /boot/config/plugins/theme.engine/themes/$filename \"*-*.cfg\" \"*-*.css\" -d /boot/config/plugins/theme.engine/themes/", $output2, $return_var2);
 			} else {
-				exec("unzip /boot/config/plugins/theme.engine/themes/$filename \"*.cfg\" \"*.css\" -d /boot/config/plugins/theme.engine/themes/", $output2, $return_var2);
+				exec("unzip /boot/config/plugins/theme.engine/themes/$filename \"*-*.cfg\" \"*-*.css\" -d /boot/config/plugins/theme.engine/themes/", $output2, $return_var2);
 			}
 			if ($return_var === 0) {
 				echo "\nUnzipped succesfully.\n\nLoad theme from Saved Themes.";

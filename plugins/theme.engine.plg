@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.13b">
-<!ENTITY md5 "46ad3b739fceab71fae6704cf0d8ca1e">
+<!ENTITY version "2020.01.13c">
+<!ENTITY md5 "1ff267f07fd6061ff7f367a5511bbbdb">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-theme-engine">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/87126-plugin-theme-engine-a-webgui-styler/">
 <CHANGES>
+###2020.01.13b
+- Import Zip only extracts *-*.cfg and *-*.css files.
+
 ###2020.01.13b
 - Add option to overwrite existing files when importing zip file.
 - Import Zip only extracts *.cfg and *.css files.
