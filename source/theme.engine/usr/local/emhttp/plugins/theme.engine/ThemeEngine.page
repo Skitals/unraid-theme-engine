@@ -74,6 +74,8 @@ From USB:
   <?endforeach;?>
   </select>
 
+&nbsp;
+: <input type="checkbox" id="importcheckbox"> Overwrite existing files (if they exist).
 
 &nbsp;
 : <input type="submit" value="Import"><input type="submit" value="Delete" onclick="DeleteTheme('zip');return false;" id="deletezipbutton" disabled><input type="checkbox" onchange="document.getElementById('deletezipbutton').disabled = !this.checked;">Confirm Delete.
@@ -468,17 +470,17 @@ $('#LoadTheme').on('submit', function(){
 $('#ImportZip').on('submit', function(){
 	var zipurl = document.getElementById("zipurl").value;
 	var zip = document.getElementById("zip").value;
+	var importcheckbox = document.getElementById("importcheckbox").checked;
 	if (zipurl) {
 		var filename = zipurl.split('/').pop().split('?')[0];
-		$.get( "/plugins/theme.engine/scripts/extract.php", { method: 'url', zipurl: zipurl, filename: filename } )
+		$.get( "/plugins/theme.engine/scripts/extract.php", { method: 'url', zipurl: zipurl, filename: filename, overwrite: importcheckbox } )
 		.done(function( data ) {
 		alert(  data );
 		location.reload();
 		});
 	} else {
-		$.get( "/plugins/theme.engine/scripts/extract.php", { method: 'zip', zip: zip } )
+		$.get( "/plugins/theme.engine/scripts/extract.php", { method: 'zip', zip: zip, overwrite: importcheckbox } )
 		.done(function( data ) {
-		alert(  data );
 		location.reload();
 		});
 	}
