@@ -1,7 +1,7 @@
 <?php
-$themecss = $_GET["themecss"];
-$filename = $_GET["filename"];
-$save = $_GET["save"];
+$themecss = $_POST["themecss"];
+$filename = $_POST["filename"];
+$save = $_POST["save"];
 
 if (!empty($themecss)) {
 	$myfile = fopen("/boot/config/plugins/theme.engine/themes/${filename}.css", "w") or die("Unable to open file!");

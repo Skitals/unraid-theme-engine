@@ -509,7 +509,7 @@ function SaveCSS() {
 	var filename = document.getElementById("MyTheme").value + "-" + document.getElementById("BaseTheme").value;
 	var themecss = document.getElementById("themecss");
 	var save = document.getElementById("exportcheckbox").checked;
-	$.get( "/plugins/theme.engine/scripts/savecss.php", { themecss: themecss.value, filename: filename, save: save } )
+	$.post( "/plugins/theme.engine/scripts/savecss.php", { themecss: themecss.value, filename: filename, save: save } )
 		.done(function( data ) {
 	});
 }
