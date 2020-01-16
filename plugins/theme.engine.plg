@@ -12,7 +12,7 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/87126-plugin-theme-engine-a-webgui-styler/">
 <CHANGES>
 ###2020.01.13
--Includes *8* more themes by Raz! Select them from the Saved Themes dropdown and hit Load.
+- Includes 8 more themes by Raz! Select them from the Saved Themes dropdown and hit Load.
 
 ###2020.01.13b
 - Fix: No longer a 2048 character limit when saving custom styling.
