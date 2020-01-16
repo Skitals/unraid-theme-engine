@@ -15,7 +15,6 @@
   --base0D: <?=$ThemeEngine['base0D']?>;
   --base0E: <?=$ThemeEngine['base0E']?>;
   --base0F: <?=$ThemeEngine['base0F']?>;
-
 }
 
 body {
@@ -67,7 +66,7 @@ table.share_status.dashboard thead tr:nth-of-type(odd){
     background-color: var(--base01) !important;
 }
 table.share_status.dashboard thead tr:nth-of-type(even){
-    background-color: var(--base02) !important;
+    background-color: var(--base01) !important;
 }
 table.share_status.dashboard tbody tr:nth-child(even) {
     background-color: var(--base00);
@@ -101,7 +100,7 @@ table.disk_status thead tr:last-child, table.share_status thead tr:last-child {
     border-bottom: none;
 }
 table.disk_status thead tr td, table.share_status thead tr td{
-    background-color: var(--base02) !important;
+    background-color: var(--base03) !important;
 }
 table.disk_status tbody tr:nth-child(even), table.share_status tbody tr:nth-child(even) {
     background-color: var(--base00);
@@ -200,7 +199,7 @@ div.tab [type="radio"] + label {
   padding: 1px 1px 1px 2px;
   margin: 8px 12px;
   border-radius: 0;
-  background-color: var(--base0A);
+  background-color: var(--base0a);
   box-shadow: none;
 }
 #nav-block #nav-item.active:after {

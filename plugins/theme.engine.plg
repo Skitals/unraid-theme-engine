@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.15">
-<!ENTITY md5 "2fb09e3c6a6562c621c2d10a1a2f9d10">
+<!ENTITY version "2020.01.16">
+<!ENTITY md5 "1418c490b47fe7947a704e3f4186a190">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-theme-engine">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/87126-plugin-theme-engine-a-webgui-styler/">
 <CHANGES>
+###2020.01.13
+-Includes *8* more themes by Raz! Select them from the Saved Themes dropdown and hit Load.
+
 ###2020.01.13b
 - Fix: No longer a 2048 character limit when saving custom styling.
 
