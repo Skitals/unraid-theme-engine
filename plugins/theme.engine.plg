@@ -61,7 +61,7 @@ The 'post-install' script
 <FILE Run="/bin/bash">
 <INLINE>
 <![CDATA[
-if cat /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php | grep '<?php include '\''\/usr\/local\/emhttp\/plugins\/theme\.engine\/include\.php'\''; ?>' > /dev/null;
+if cat /usr/local/emhttp/plugins/dynamix/include/DefaultPageLayout.php | grep '<?php include '\''/usr/local/emhttp/plugins/theme\.engine/include\.php'\''; ?>' > /dev/null;
 then
 echo "Looks good... continuing... "
 else
