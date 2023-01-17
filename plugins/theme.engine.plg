@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "theme.engine">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.16">
+<!ENTITY version "2023.01.17">
 <!ENTITY md5 "1418c490b47fe7947a704e3f4186a190">
 <!ENTITY launch "Settings/ThemeEngine">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="paint-brush" min="6.7.0" support="https://forums.unraid.net/topic/87126-plugin-theme-engine-a-webgui-styler/">
 <CHANGES>
+###2023.01.17
+- Fix grep warning (Thanks uraid).  
+  
 ###2020.01.16
 - Includes 8 more themes by Raz! Select them from the Saved Themes dropdown and hit Load.
 
